@@ -44,16 +44,26 @@ public class Garden implements ModInitializer {
                     )
     );
 
-    public static final BlackBlock BLACK_BLOCK = new BlackBlock();
+    public static final ColoredBlock BLACK_BLOCK = new ColoredBlock();
+
+    public static final ColoredBlock WHITE_BLOCK = new ColoredBlock(true);
 
     @Override
     public void onInitialize() {
         LOGGER.info("Hello Fabric world!");
         Registry.register(Registry.ITEM, new Identifier("garden", "bad_apple"), BAD_APPLE);
         Registry.register(Registry.ITEM, new Identifier("garden", "rotten_carrot"), ROTTEN_CARROT);
+
         Registry.register(Registry.BLOCK, new Identifier("garden", "black_block"), BLACK_BLOCK);
         Registry.register(Registry.ITEM, new Identifier("garden", "black_block"), new BlockItem(
                 BLACK_BLOCK,
+                new Item.Settings()
+                        .group(ItemGroup.BUILDING_BLOCKS)
+        ));
+
+        Registry.register(Registry.BLOCK, new Identifier("garden", "white_block"), WHITE_BLOCK);
+        Registry.register(Registry.ITEM, new Identifier("garden", "white_block"), new BlockItem(
+                WHITE_BLOCK,
                 new Item.Settings()
                         .group(ItemGroup.BUILDING_BLOCKS)
         ));
