@@ -27,7 +27,8 @@ import org.slf4j.LoggerFactory;
 
 public class Garden implements ModInitializer {
     public static final Logger LOGGER = LoggerFactory.getLogger("gardenmod");
-    public static final Item BAD_APPLE = new Item(
+
+    private static final Item BAD_APPLE = new Item(
             new Item.Settings()
                     .group(ItemGroup.FOOD)
                     .food(
@@ -41,7 +42,7 @@ public class Garden implements ModInitializer {
                     )
     );
 
-    public static final Item ROTTEN_CARROT = new Item(
+    private static final Item ROTTEN_CARROT = new Item(
             new Item.Settings()
                     .group(ItemGroup.FOOD)
                     .food(
@@ -54,7 +55,7 @@ public class Garden implements ModInitializer {
                     )
     );
 
-    public static final Item GOLDEN_POTATO = new Item(
+    private static final Item GOLDEN_POTATO = new Item(
             new Item.Settings()
                     .group(ItemGroup.FOOD)
                     .food(
@@ -68,12 +69,14 @@ public class Garden implements ModInitializer {
                     )
     );
 
-    public static final ColoredBlock BLACK_BLOCK = new ColoredBlock();
+    private static final ColoredBlock BLACK_BLOCK = new ColoredBlock();
 
-    public static final ColoredBlock WHITE_BLOCK = new ColoredBlock(true);
+    private static final ColoredBlock WHITE_BLOCK = new ColoredBlock(true);
 
     private static final Identifier OAK_LEAVES_LOOT_TABLE_ID = Blocks.OAK_LEAVES.getLootTableId();
     private static final Identifier DARK_OAK_LEAVES_LOOT_TABLE_ID = Blocks.DARK_OAK_LEAVES.getLootTableId();
+    private static final Identifier CARROTS_LOOT_TABLE_ID = Blocks.CARROTS.getLootTableId();
+
 
     @Override
     public void onInitialize() {
@@ -105,6 +108,18 @@ public class Garden implements ModInitializer {
                                 .rolls(ConstantLootNumberProvider.create(1))
                                 .conditionally(RandomChanceLootCondition.builder(0.01f).build())
                                 .with(ItemEntry.builder(BAD_APPLE))
+                );
+            }
+        });
+
+        LootTableEvents.MODIFY.register((resourceManager, lootManager, id, tableBuilder, source) -> {
+            if (source.isBuiltin() && CARROTS_LOOT_TABLE_ID.equals(id)) {
+                tableBuilder.pool(
+                        LootPool
+                                .builder()
+                                .rolls(ConstantLootNumberProvider.create(1))
+                                .conditionally(RandomChanceLootCondition.builder(0.02f).build())
+                                .with(ItemEntry.builder(ROTTEN_CARROT))
                 );
             }
         });
